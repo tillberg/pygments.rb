@@ -724,6 +724,12 @@ class HtmlLexer(RegexLexer):
             (r'<\s*style\s*', Name.Tag, ('style-content', 'tag')),
             (r'<\s*[a-zA-Z0-9:]+', Name.Tag, 'tag'),
             (r'<\s*/\s*[a-zA-Z0-9:]+\s*>', Name.Tag),
+            (r'<%[=-][^%]+%>', Other),
+            (r'<%', Other, 'utemp'),
+        ],
+        'utemp': [
+            (r'%>', Other, '#pop'),
+            (r'.+?(?=%>)', using(JavascriptLexer)),
         ],
         'comment': [
             ('[^-]+', Comment),
